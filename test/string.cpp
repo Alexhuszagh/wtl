@@ -39,3 +39,69 @@ TEST(string, constructors)
     EXPECT_EQ(str.size(), 14);
     EXPECT_EQ(other.size(), 14);
 }
+
+
+TEST(string, swap)
+{
+    wtl::string str(STR);
+    wtl::string other;
+    EXPECT_EQ(str.size(), 14);
+    EXPECT_EQ(other.size(), 0);
+
+    std::swap(str, other);
+    EXPECT_EQ(str.size(), 0);
+    EXPECT_EQ(other.size(), 14);
+
+    wtl::swap(str, other);
+    EXPECT_EQ(str.size(), 14);
+    EXPECT_EQ(other.size(), 0);
+}
+
+
+TEST(string, relational)
+{
+    wtl::string str(STR);
+    wtl::string other;
+
+    // eq
+    EXPECT_TRUE(str == str);
+    EXPECT_FALSE(str == other);
+    EXPECT_TRUE(str == STR);
+    EXPECT_FALSE(str == str.data());
+    EXPECT_FALSE(str.data() == str);
+
+    // ne
+    EXPECT_FALSE(str != str);
+    EXPECT_TRUE(str != other);
+    EXPECT_FALSE(str != STR);
+    EXPECT_TRUE(str != str.data());
+    EXPECT_TRUE(str.data() != str);
+
+    // lt
+    EXPECT_FALSE(str < str);
+    EXPECT_FALSE(str < other);
+    EXPECT_FALSE(str < STR);
+    EXPECT_FALSE(str < str.data());
+    EXPECT_TRUE(str.data() < str);
+
+    // le
+    EXPECT_TRUE(str <= str);
+    EXPECT_FALSE(str <= other);
+    EXPECT_TRUE(str <= STR);
+    EXPECT_FALSE(str <= str.data());
+    EXPECT_TRUE(str.data() <= str);
+
+    // gt
+    EXPECT_FALSE(str > str);
+    EXPECT_TRUE(str > other);
+    EXPECT_FALSE(str > STR);
+    EXPECT_TRUE(str > str.data());
+    EXPECT_FALSE(str.data() > str);
+
+    // ge
+    EXPECT_TRUE(str >= str);
+    EXPECT_TRUE(str >= other);
+    EXPECT_TRUE(str >= STR);
+    EXPECT_TRUE(str >= str.data());
+    EXPECT_FALSE(str.data() >= str);
+}

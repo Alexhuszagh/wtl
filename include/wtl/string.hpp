@@ -1,13 +1,10 @@
-/*
- *  :author: The Regents of the University of California.
- *  :license: Public Domain
- *
- *  This file has been placed in the public domain.
- *  There are no restrictions on its use.
- */
+//  :copyright: (c) 2009-2017 LLVM Team.
+//  :copyright: (c) 2017 Alex Huszagh.
+//  :license: BSD-like or MIT, see LICENSE.md for more details.
 
 #pragma once
 
+#include <cstring>
 #include <string>
 
 
@@ -37,6 +34,159 @@ protected:
     const Char *data_ = nullptr;
     size_t length_ = 0;
 
+    // NON-MEMBER FUNCTIONS
+    // --------------------
+    template <typename C, typename T>
+    friend void swap(basic_string<C, T> &left,
+        basic_string<C, T> &right);
+
+    template <typename C, typename T>
+    friend std::basic_istream<C, T> & operator>>(std::basic_istream<C, T> &stream,
+        basic_string<C, T> &str);
+
+    template <typename C, typename T>
+    friend std::basic_ostream<C, T> & operator<<(std::basic_ostream<C, T> &stream,
+        basic_string<C, T> &str);
+
+    // RELATIONAL OPERATORS
+    template <typename C, typename T>
+    friend bool operator==(const basic_string<C, T> &left,
+        const basic_string<C, T> &right) noexcept;
+
+    template <typename C, typename T>
+    friend bool operator==(const std::basic_string<C, T> &left,
+        const basic_string<C, T> &right) noexcept;
+
+    template <typename C, typename T>
+    friend bool operator==(const basic_string<C, T> &left,
+        const std::basic_string<C, T> &right) noexcept;
+
+    template <typename C, typename T>
+    friend bool operator==(const C *left,
+        const basic_string<C, T> &right);
+
+    template <typename C, typename T>
+    friend bool operator==(const basic_string<C, T> &left,
+        const C *right);
+
+    template <typename C, typename T>
+    friend bool operator!=(const basic_string<C, T> &left,
+        const basic_string<C, T> &right) noexcept;
+
+    template <typename C, typename T>
+    friend bool operator!=(const std::basic_string<C, T> &left,
+        const basic_string<C, T> &right) noexcept;
+
+    template <typename C, typename T>
+    friend bool operator!=(const basic_string<C, T> &left,
+        const std::basic_string<C, T> &right) noexcept;
+
+    template <typename C, typename T>
+    friend bool operator!=(const C *left,
+        const basic_string<C, T> &right);
+
+    template <typename C, typename T>
+    friend bool operator!=(const basic_string<C, T> &left,
+        const C *right);
+
+    template <typename C, typename T>
+    friend bool operator<(const basic_string<C, T> &left,
+        const basic_string<C, T> &right) noexcept;
+
+    template <typename C, typename T>
+    friend bool operator<(const std::basic_string<C, T> &left,
+        const basic_string<C, T> &right) noexcept;
+
+    template <typename C, typename T>
+    friend bool operator<(const basic_string<C, T> &left,
+        const std::basic_string<C, T> &right) noexcept;
+
+    template <typename C, typename T>
+    friend bool operator<(const C *left,
+        const basic_string<C, T> &right);
+
+    template <typename C, typename T>
+    friend bool operator<(const basic_string<C, T> &left,
+        const C *right);
+
+    template <typename C, typename T>
+    friend bool operator<=(const basic_string<C, T> &left,
+        const basic_string<C, T> &right) noexcept;
+
+    template <typename C, typename T>
+    friend bool operator<=(const std::basic_string<C, T> &left,
+        const basic_string<C, T> &right) noexcept;
+
+    template <typename C, typename T>
+    friend bool operator<=(const basic_string<C, T> &left,
+        const std::basic_string<C, T> &right) noexcept;
+
+    template <typename C, typename T>
+    friend bool operator<=(const C *left,
+        const basic_string<C, T> &right);
+
+    template <typename C, typename T>
+    friend bool operator<=(const basic_string<C, T> &left,
+        const C *right);
+
+    template <typename C, typename T>
+    friend bool operator>(const basic_string<C, T> &left,
+        const basic_string<C, T> &right) noexcept;
+
+    template <typename C, typename T>
+    friend bool operator>(const std::basic_string<C, T> &left,
+        const basic_string<C, T> &right) noexcept;
+
+    template <typename C, typename T>
+    friend bool operator>(const basic_string<C, T> &left,
+        const std::basic_string<C, T> &right) noexcept;
+
+    template <typename C, typename T>
+    friend bool operator>(const C *left,
+        const basic_string<C, T> &right);
+
+    template <typename C, typename T>
+    friend bool operator>(const basic_string<C, T> &left,
+        const C *right);
+
+    template <typename C, typename T>
+    friend bool operator>=(const basic_string<C, T> &left,
+        const basic_string<C, T> &right) noexcept;
+
+    template <typename C, typename T>
+    friend bool operator>=(const std::basic_string<C, T> &left,
+        const basic_string<C, T> &right) noexcept;
+
+    template <typename C, typename T>
+    friend bool operator>=(const basic_string<C, T> &left,
+        const std::basic_string<C, T> &right) noexcept;
+
+    template <typename C, typename T>
+    friend bool operator>=(const C *left,
+        const basic_string<C, T> &right);
+
+    template <typename C, typename T>
+    friend bool operator>=(const basic_string<C, T> &left,
+        const C *right);
+//
+//    // GETLINE
+//    template <typename C, typename T, typename A>
+//    friend std::basic_istream<C, T> & getline(std::basic_istream<C, T> &stream,
+//        basic_string<C, T, A> &str,
+//        C delim);
+//
+//    template <typename C, typename T, typename A>
+//    friend std::basic_istream<C, T> & getline(std::basic_istream<C, T> &&stream,
+//        basic_string<C, T, A> &str,
+//        C delim);
+//
+//    template <typename C, typename T, typename A>
+//    friend std::basic_istream<C, T> & getline(std::basic_istream<C, T> &stream,
+//        basic_string<C, T, A> &str);
+//
+//    template <typename C, typename T, typename A>
+//    friend std::basic_istream<C, T> & getline(std::basic_istream<C, T> &&stream,
+//        basic_string<C, T, A> &str);
     // TODO: need non-member functions...
 
 public:
@@ -68,9 +218,18 @@ public:
     basic_string<Char, Traits> & operator=(basic_string<Char, Traits> &&str);
 
     basic_string(const std::basic_string<Char, Traits> &str);
+    basic_string(const basic_string<Char, Traits> &str,
+        size_type pos,
+        size_type len = npos);
+    basic_string(const std::basic_string<Char, Traits> &str,
+        size_type pos,
+        size_type len = npos);
     basic_string(const Char *str);
     basic_string(const Char *str,
         size_t n);
+    basic_string(const Char *begin,
+        const Char *end);
+    basic_string<Char, Traits> & operator=(const Char *str);
 
     // ITERATORS
     iterator begin();
@@ -109,31 +268,488 @@ public:
     basic_string<Char, Traits> & assign(const Char *s);
     basic_string<Char, Traits> & assign(const Char *s,
         size_type n);
+    void swap(basic_string<Char, Traits> &other);
 
-//    using Base::insert;
-//    using Base::erase;
-//    using Base::replace;
-//    using Base::pop_back;
-//    void swap(This &other);
-//
-//    // STRING OPERATIONS
-//    using Base::c_str;
-//    using Base::data;
-//    using Base::get_allocator;
-//    using Base::copy;
-//    using Base::find;
-//    using Base::rfind;
-//    using Base::find_first_of;
-//    using Base::find_last_of;
-//    using Base::find_first_not_of;
-//    using Base::find_last_not_of;
-//    using Base::compare;
-//    basic_string<Char, Traits, Alloc> substr(size_type pos = 0, size_type len = npos) const;
+    // OPERATORS
+    basic_string<Char, Traits> & operator++();
+    basic_string<Char, Traits> operator++(int);
+    basic_string<Char, Traits> & operator--();
+    basic_string<Char, Traits> operator--(int);
+    basic_string<Char, Traits> & operator+=(const size_t shift);
+    basic_string<Char, Traits> operator+(const size_t shift);
+    basic_string<Char, Traits> & operator-=(const size_t shift);
+    basic_string<Char, Traits> operator-(const size_t shift);
+
+    // STRING OPERATIONS
+    const Char* c_str() const noexcept;
+    const Char* data() const noexcept;
+
+    // FIND
+    size_t find(const basic_string<Char, Traits> &str,
+        size_t pos = 0) const noexcept;
+    size_t find(const std::string &str,
+        size_t pos = 0) const;
+    size_t find(const char *array,
+        size_t pos = 0) const;
+    size_t find(const char *cstring,
+        size_t pos,
+        size_t length) const;
+    size_t find(char c,
+        size_t pos = 0) const noexcept;
+
+    // FIND FIRST OF
+    size_t find_first_of(const basic_string<Char, Traits> &str,
+        size_t pos = 0) const noexcept;
+    size_t find_first_of(const std::string &str,
+        size_t pos = 0) const;
+    size_t find_first_of(const char *array,
+        size_t pos = 0) const;
+    size_t find_first_of(const char *cstring,
+        size_t pos,
+        size_t length) const;
+    size_t find_first_of(char c,
+        size_t pos = 0) const noexcept;
+
+    // FIND FIRST NOT OF
+    size_t find_first_not_of(const basic_string<Char, Traits> &str,
+        size_t pos = 0) const noexcept;
+    size_t find_first_not_of(const std::string &str,
+        size_t pos = 0) const;
+    size_t find_first_not_of(const char *array,
+        size_t pos = 0) const;
+    size_t find_first_not_of(const char *cstring,
+        size_t pos,
+        size_t length) const;
+    size_t find_first_not_of(char c,
+        size_t pos = 0) const noexcept;
+
+    // RFIND
+    size_t rfind(const basic_string<Char, Traits> &str,
+        size_t pos = 0) const noexcept;
+    size_t rfind(const std::string &str,
+        size_t pos = 0) const;
+    size_t rfind(const char *array,
+        size_t pos = 0) const;
+    size_t rfind(const char *cstring,
+        size_t pos,
+        size_t length) const;
+    size_t rfind(char c,
+        size_t pos = 0) const noexcept;
+
+    // FIND LAST OF
+    size_t find_last_of(const basic_string<Char, Traits> &str,
+        size_t pos = 0) const noexcept;
+    size_t find_last_of(const std::string &str,
+        size_t pos = 0) const;
+    size_t find_last_of(const char *array,
+        size_t pos = 0) const;
+    size_t find_last_of(const char *cstring,
+        size_t pos,
+        size_t length) const;
+    size_t find_last_of(char c,
+        size_t pos = 0) const noexcept;
+
+    // FIND LAST NOT OF
+    size_t find_last_not_of(const basic_string<Char, Traits> &str,
+        size_t pos = 0) const noexcept;
+    size_t find_last_not_of(const std::string &str,
+        size_t pos = 0) const;
+    size_t find_last_not_of(const char *array,
+        size_t pos = 0) const;
+    size_t find_last_not_of(const char *cstring,
+        size_t pos,
+        size_t length) const;
+    size_t find_last_not_of(char c,
+        size_t pos = 0) const noexcept;
+
+    // COMPARE
+    int compare(const basic_string<Char, Traits> &str) const noexcept;
+    int compare(const std::basic_string<Char, Traits> &str) const noexcept;
+
+// TODO: need to implement...
+//int compare (size_type pos, size_type len, const basic_string<Char, Traits> &str) const;
+//int compare (size_type pos, size_type len, const std::basic_string<Char, Traits> &str) const;
+//int compare (size_type pos, size_type len, const basic_string<Char, Traits> &str, size_type subpos, size_type sublen) const;
+//int compare (size_type pos, size_type len, const std::basic_string<Char, Traits> &str, size_type subpos, size_type sublen) const;
+
+//    int compare(const Char *s) const;
+//    int compare(size_type pos, size_type len, const Char *s) const;
+//    int compare(size_type pos, size_type len, const Char* s, size_type n) const;
+
+    basic_string<Char, Traits> substr(size_type pos = 0,
+        size_type len = npos) const;
+
+    // CONVERSIONS
+    explicit operator bool() const;
+    explicit operator std::string() const;
 };
 
 
+namespace detail
+{
+// DETAIL
+// ------
+
+
+const char * find(const char *first,
+    size_t length,
+    const char *substr,
+    const size_t sublen) noexcept
+{
+    for (; length >= sublen; --length, ++first) {
+        if (!strncmp(first, substr, sublen)) {
+            return first;
+        }
+    }
+    return nullptr;
+}
+
+
+const char * find_of(const char *first,
+    size_t length,
+    const char *substr,
+    const size_t sublen) noexcept
+{
+    for (; length; --length, ++first) {
+        if (memchr(substr, *first, sublen)) {
+            return first;
+        }
+    }
+    return nullptr;
+}
+
+
+const char * find_not_of(const char *first,
+    size_t length,
+    const char *substr,
+    const size_t sublen)
+{
+    for (; length; --length, ++first) {
+        if (!memchr(substr, *first, sublen)) {
+            return first;
+        }
+    }
+    return nullptr;
+}
+
+
+const char * rfind(const char *last,
+    size_t length,
+    const char *substr,
+    const size_t sublen)
+{
+    last -= sublen;
+    for (; length >= sublen; --length) {
+        if (!strncmp(--last, substr, sublen)) {
+            return last;
+        }
+    }
+
+    return nullptr;
+}
+
+
+const char * rfind_of(const char *last,
+    size_t length,
+    const char *substr,
+    const size_t sublen)
+{
+    for (; length; --length) {
+        if (memchr(substr, *--last, sublen)) {
+            return last;
+        }
+    }
+    return nullptr;
+}
+
+
+const char * rfind_not_of(const char *last,
+    size_t length,
+    const char *substr,
+    const size_t sublen)
+{
+    for (; length; --length) {
+        if (!memchr(substr, *--last, sublen)) {
+            return last;
+        }
+    }
+    return nullptr;
+}
+
+
+}   /* detail */
+
+
 // IMPLEMENTATION
-// --------------
+// --------------'
+
+
+template <typename C, typename T>
+void swap(basic_string<C, T> &left,
+    basic_string<C, T> &right)
+{
+    left.swap(right);
+}
+
+
+template <typename C, typename T>
+std::basic_istream<C, T> & operator>>(std::basic_istream<C, T> &stream,
+    basic_string<C, T> &str)
+{
+    // TODO: maybe have to const_cast?
+    return stream.read(str.data_, str.length_);
+}
+
+
+template <typename C, typename T>
+std::basic_ostream<C, T> & operator<<(std::basic_ostream<C, T> &stream,
+    basic_string<C, T> &str)
+{
+    return stream.write(str.data(), str.length());
+}
+
+
+template <typename C, typename T>
+bool operator==(const basic_string<C, T> &left,
+    const basic_string<C, T> &right) noexcept
+{
+    size_t left_size = left.size();
+    return left_size == right.size() && T::compare(left.data(), right.data(), left_size) == 0;
+}
+
+
+template <typename C, typename T>
+bool operator==(const std::basic_string<C, T> &left,
+    const basic_string<C, T> &right) noexcept
+{
+    return basic_string<C, T>(left) == right;
+}
+
+
+template <typename C, typename T>
+bool operator==(const basic_string<C, T> &left,
+    const std::basic_string<C, T> &right) noexcept
+{
+    return left == basic_string<C, T>(right);
+}
+
+
+template <typename C, typename T>
+bool operator==(const C *left,
+    const basic_string<C, T> &right)
+{
+    return basic_string<C, T>(left) == right;
+}
+
+
+template <typename C, typename T>
+bool operator==(const basic_string<C, T> &left,
+    const C *right)
+{
+    return left == basic_string<C, T>(right);
+}
+
+
+template <typename C, typename T>
+bool operator!=(const basic_string<C, T> &left,
+    const basic_string<C, T> &right) noexcept
+{
+
+    return !(left == right);
+}
+
+
+template <typename C, typename T>
+bool operator!=(const std::basic_string<C, T> &left,
+    const basic_string<C, T> &right) noexcept
+{
+    return !(left == right);
+}
+
+
+template <typename C, typename T>
+bool operator!=(const basic_string<C, T> &left,
+    const std::basic_string<C, T> &right) noexcept
+{
+    return !(left == right);
+}
+
+
+template <typename C, typename T>
+bool operator!=(const C *left,
+    const basic_string<C, T> &right)
+{
+    return !(left == right);
+}
+
+
+template <typename C, typename T>
+bool operator!=(const basic_string<C, T> &left,
+    const C *right)
+{
+    return !(left == right);
+}
+
+
+template <typename C, typename T>
+bool operator<(const basic_string<C, T> &left,
+    const basic_string<C, T> &right) noexcept
+{
+    return left.compare(right) < 0;
+}
+
+
+template <typename C, typename T>
+bool operator<(const std::basic_string<C, T> &left,
+    const basic_string<C, T> &right) noexcept
+{
+    return basic_string<C, T>(left) < right;
+}
+
+
+template <typename C, typename T>
+bool operator<(const basic_string<C, T> &left,
+    const std::basic_string<C, T> &right) noexcept
+{
+    return left < basic_string<C, T>(right);
+}
+
+
+template <typename C, typename T>
+bool operator<(const C *left,
+    const basic_string<C, T> &right)
+{
+    return basic_string<C, T>(left) < right;
+}
+
+
+template <typename C, typename T>
+bool operator<(const basic_string<C, T> &left,
+    const C *right)
+{
+    return left < basic_string<C, T>(right);
+}
+
+
+template <typename C, typename T>
+bool operator<=(const basic_string<C, T> &left,
+    const basic_string<C, T> &right) noexcept
+{
+    return !(right < left);
+}
+
+
+template <typename C, typename T>
+bool operator<=(const std::basic_string<C, T> &left,
+    const basic_string<C, T> &right) noexcept
+{
+    return basic_string<C, T>(left) <= right;
+}
+
+
+template <typename C, typename T>
+bool operator<=(const basic_string<C, T> &left,
+    const std::basic_string<C, T> &right) noexcept
+{
+    return left <= basic_string<C, T>(right);
+}
+
+
+template <typename C, typename T>
+bool operator<=(const C *left,
+    const basic_string<C, T> &right)
+{
+    return basic_string<C, T>(left) <= right;
+}
+
+
+template <typename C, typename T>
+bool operator<=(const basic_string<C, T> &left,
+    const C *right)
+{
+    return left <= basic_string<C, T>(right);
+}
+
+
+template <typename C, typename T>
+bool operator>(const basic_string<C, T> &left,
+    const basic_string<C, T> &right) noexcept
+{
+    return right < left;
+}
+
+
+template <typename C, typename T>
+bool operator>(const std::basic_string<C, T> &left,
+    const basic_string<C, T> &right) noexcept
+{
+    return basic_string<C, T>(left) > right;
+}
+
+
+template <typename C, typename T>
+bool operator>(const basic_string<C, T> &left,
+    const std::basic_string<C, T> &right) noexcept
+{
+    return left > basic_string<C, T>(right);
+}
+
+
+template <typename C, typename T>
+bool operator>(const C *left,
+    const basic_string<C, T> &right)
+{
+    return basic_string<C, T>(left) > right;
+}
+
+
+template <typename C, typename T>
+bool operator>(const basic_string<C, T> &left,
+    const C *right)
+{
+    return left > basic_string<C, T>(right);
+}
+
+
+template <typename C, typename T>
+bool operator>=(const basic_string<C, T> &left,
+    const basic_string<C, T> &right) noexcept
+{
+    return !(left < right);
+}
+
+
+template <typename C, typename T>
+bool operator>=(const std::basic_string<C, T> &left,
+    const basic_string<C, T> &right) noexcept
+{
+    return basic_string<C, T>(left) >= right;
+}
+
+
+template <typename C, typename T>
+bool operator>=(const basic_string<C, T> &left,
+    const std::basic_string<C, T> &right) noexcept
+{
+    return left >= basic_string<C, T>(right);
+}
+
+
+template <typename C, typename T>
+bool operator>=(const C *left,
+    const basic_string<C, T> &right)
+{
+    return basic_string<C, T>(left) >= right;
+}
+
+
+template <typename C, typename T>
+bool operator>=(const basic_string<C, T> &left,
+    const C *right)
+{
+    return left >= basic_string<C, T>(right);
+}
+
 
 template <typename C, typename T>
 basic_string<C, T>::basic_string(const basic_string<C, T> &str):
@@ -156,16 +772,14 @@ basic_string<C, T>::basic_string(basic_string<C, T> &&str):
     data_(str.data_),
     length_(str.length_)
 {
-    std::swap(data_, str.data_);
-    std::swap(length_, str.length_);
+    swap(str);
 }
 
 
 template <typename C, typename T>
 basic_string<C, T> & basic_string<C, T>::operator=(basic_string<C, T> &&str)
 {
-    std::swap(data_, str.data_);
-    std::swap(length_, str.length_);
+    swap(str);
     return *this;
 }
 
@@ -175,6 +789,34 @@ basic_string<C, T>::basic_string(const std::basic_string<C, T> &str):
     data_(str.data()),
     length_(str.length())
 {}
+
+
+template <typename C, typename T>
+basic_string<C, T>::basic_string(const basic_string<C, T> &str,
+    size_type pos,
+    size_type len)
+{
+    size_type size_ = str.size();
+    if (pos > size_) {
+        throw std::out_of_range("basic_string::basic_string().");
+    }
+    data_ = str + pos;
+    length_ = std::min(len, size_ - pos);
+}
+
+
+template <typename C, typename T>
+basic_string<C, T>::basic_string(const std::basic_string<C, T> &str,
+    size_type pos,
+    size_type len)
+{
+    size_type size_ = str.size();
+    if (pos > size_) {
+        throw std::out_of_range("basic_string::basic_string().");
+    }
+    data_ = str + pos;
+    length_ = std::min(len, size_ - pos);
+}
 
 
 template <typename C, typename T>
@@ -191,6 +833,22 @@ basic_string<C, T>::basic_string(const C *str,
 {
     data_ = str;
     length_ = n;
+}
+
+
+template <typename C, typename T>
+basic_string<C, T>::basic_string(const C *begin,
+        const C *end):
+    data_(begin),
+    length_(end - begin)
+{}
+
+
+template <typename C, typename T>
+basic_string<C, T> & basic_string<C, T>::operator=(const C *str)
+{
+    assign(str);
+    return *this;
 }
 
 
@@ -418,6 +1076,472 @@ basic_string<C, T> & basic_string<C, T>::assign(const C *s,
     data_ = s;
     length_ = n;
     return *this;
+}
+
+
+template <typename C, typename T>
+void basic_string<C, T>::swap(basic_string<C, T> &other)
+{
+    std::swap(data_, other.data_);
+    std::swap(length_, other.length_);
+}
+
+
+template <typename C, typename T>
+basic_string<C, T> & basic_string<C, T>::operator++()
+{
+    if (length_) {
+        ++data_;
+        --length_;
+    }
+    if (empty()) {
+        data_ = nullptr;
+    }
+
+    return *this;
+}
+
+
+template <typename C, typename T>
+basic_string<C, T> basic_string<C, T>::operator++(int)
+{
+    basic_string<C, T> copy(*this);
+    operator++();
+
+    return copy;
+}
+
+
+template <typename C, typename T>
+basic_string<C, T> & basic_string<C, T>::operator--()
+{
+    if (!empty()) {
+        --data_;
+        ++length_;
+    }
+    return *this;
+}
+
+
+template <typename C, typename T>
+basic_string<C, T> basic_string<C, T>::operator--(int)
+{
+    basic_string<C, T> copy(*this);
+    operator--();
+
+    return copy;
+}
+
+
+template <typename C, typename T>
+basic_string<C, T> & basic_string<C, T>::operator+=(const size_t shift)
+{
+    const size_t offset = std::min<size_t>(shift, length_);
+    data_ += offset;
+    length_ -= offset;
+
+    return *this;
+}
+
+
+template <typename C, typename T>
+basic_string<C, T> basic_string<C, T>::operator+(const size_t shift)
+{
+    basic_string<C, T> copy(*this);
+    copy += shift;
+    return copy;
+}
+
+
+template <typename C, typename T>
+basic_string<C, T> & basic_string<C, T>::operator-=(const size_t shift)
+{
+    if (!empty()) {
+        data_ -= shift;
+        length_ += shift;
+    }
+    return *this;
+}
+
+
+template <typename C, typename T>
+basic_string<C, T> basic_string<C, T>::operator-(const size_t shift)
+{
+    basic_string<C, T> copy(*this);
+    copy -= shift;
+    return copy;
+}
+
+
+template <typename C, typename T>
+const C* basic_string<C, T>::c_str() const noexcept
+{
+    return data_;
+}
+
+
+template <typename C, typename T>
+const C* basic_string<C, T>::data() const noexcept
+{
+    return data_;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find(const basic_string<C, T> &str,
+    size_t pos) const noexcept
+{
+    auto *found = detail::find(data()+pos, size()-pos, str.data(), str.size());
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find(const std::string &str,
+    size_t pos) const
+{
+    const char *first = str.data();
+    const size_t length = str.size();
+    auto *found = detail::find(data()+pos, size()-pos, first, length);
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find(const char *array,
+    size_t pos) const
+{
+    const char *first = array;
+    const size_t length = strlen(array);
+    auto *found = detail::find(data()+pos, size()-pos, first, length);
+
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find(const char *array,
+    size_t pos,
+    size_t length) const
+{
+    auto *found = detail::find(data()+pos, size()-pos, array, length);
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find(char c,
+    size_t pos) const noexcept
+{
+    auto *found = detail::find(data()+pos, size()-pos, &c, 1);
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_first_of(const basic_string<C, T> &str,
+    size_t pos) const noexcept
+{
+    auto *found = detail::find_of(data()+pos, size()-pos, str.data(), str.size());
+
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_first_of(const std::string &str,
+    size_t pos) const
+{
+    const char *first = str.data();
+    const size_t length = str.size();
+    auto *found = detail::find_of(data()+pos, size()-pos, first, length);
+
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_first_of(const char *array,
+    size_t pos) const
+{
+    const char *first = array;
+    const size_t length = strlen(array);
+    auto *found = detail::find_of(data()+pos, size()-pos, first, length);
+
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_first_of(const char *array,
+    size_t pos,
+    size_t length) const
+{
+    auto *found = detail::find_of(data()+pos, size()-pos, array, length);
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_first_of(char c,
+    size_t pos) const noexcept
+{
+    auto *found = detail::find_of(data()+pos, size()-pos, &c, 1);
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_first_not_of(const basic_string<C, T> &str,
+    size_t pos) const noexcept
+{
+    auto *found = detail::find_not_of(data()+pos, size()-pos, str.data(), str.size());
+
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_first_not_of(const std::string &str,
+    size_t pos) const
+{
+    const char *first = str.data();
+    const size_t length = str.size();
+    auto *found = detail::find_not_of(data()+pos, size()-pos, first, length);
+
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_first_not_of(const char *array,
+    size_t pos) const
+{
+    const char *first = array;
+    const size_t length = strlen(array);
+    auto *found = detail::find_not_of(data()+pos, size()-pos, first, length);
+
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_first_not_of(const char *array,
+    size_t pos,
+    size_t length) const
+{
+    auto *found = detail::find_not_of(data()+pos, size()-pos, array, length);
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_first_not_of(char c,
+    size_t pos) const noexcept
+{
+    auto *found = detail::find_not_of(data()+pos, size()-pos, &c, 1);
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::rfind(const basic_string<C, T> &str,
+    size_t pos) const noexcept
+{
+    auto *found = detail::rfind(end(), size()-pos, str.data(), str.size());
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::rfind(const std::string &str,
+    size_t pos) const
+{
+    const char *first = str.data();
+    const size_t length = str.size();
+    auto *found = detail::rfind(end(), size()-pos, first, length);
+
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::rfind(const char *array,
+    size_t pos) const
+{
+    const char *first = array;
+    const size_t length = strlen(array);
+    auto *found = detail::rfind(end(), size()-pos, first, length);
+
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::rfind(const char *array,
+    size_t pos,
+    size_t length) const
+{
+    auto *found = detail::rfind(end(), size()-pos, array, length);
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::rfind(char c,
+    size_t pos) const noexcept
+{
+    auto *found = detail::rfind(end(), size()-pos, &c, 1);
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_last_of(const basic_string<C, T> &str,
+    size_t pos) const noexcept
+{
+    auto *found = detail::rfind_of(end(), size()-pos, str.data(), str.size());
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_last_of(const std::string &str,
+    size_t pos) const
+{
+    const char *first = str.data();
+    const size_t length = str.size();
+    auto *found = detail::rfind_of(end(), size()-pos, first, length);
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_last_of(const char *array,
+    size_t pos) const
+{
+    const char *first = array;
+    const size_t length = strlen(array);
+    auto *found = detail::rfind_of(end(), size()-pos, first, length);
+
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_last_of(const char *array,
+    size_t pos,
+    size_t length) const
+{
+    auto *found = detail::rfind_of(end(), size()-pos, array, length);
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_last_of(char c,
+    size_t pos) const noexcept
+{
+    auto *found = detail::rfind_of(end(), size()-pos, &c, 1);
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_last_not_of(const basic_string<C, T> &str,
+    size_t pos) const noexcept
+{
+    auto *found = detail::rfind_not_of(end(), size()-pos, str.data(), str.size());
+
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_last_not_of(const std::string &str,
+    size_t pos) const
+{
+    const char *first = str.data();
+    const size_t length = str.size();
+    auto *found = detail::rfind_not_of(end(), size()-pos, first, length);
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_last_not_of(const char *array,
+    size_t pos) const
+{
+    const char *first = array;
+    const size_t length = strlen(array);
+    auto *found = detail::rfind_not_of(end(), size()-pos, first, length);
+
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_last_not_of(const char *array,
+    size_t pos,
+    size_t length) const
+{
+    auto *found = detail::rfind_not_of(end(), size()-pos, array, length);
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+size_t basic_string<C, T>::find_last_not_of(char c,
+    size_t pos) const noexcept
+{
+    auto *found = detail::rfind_not_of(end(), size()-pos, &c, 1);
+    return found ? found - data() : npos;
+}
+
+
+template <typename C, typename T>
+int basic_string<C, T>::compare(const basic_string<C, T> &str) const noexcept
+{
+    size_t left_size = size();
+    size_t right_size = str.size();
+    int result = traits_type::compare(data(), str.data(), std::min(left_size, right_size));
+    if (result != 0) {
+        return result;
+    } else if (left_size < right_size) {
+        return -1;
+    } else if (left_size > right_size) {
+        return 1;
+    }
+    return 0;
+}
+
+
+template <typename C, typename T>
+int basic_string<C, T>::compare(const std::basic_string<C, T> &str) const noexcept
+{
+    return compare(basic_string<C, T>(str));
+}
+
+
+template <typename C, typename T>
+basic_string<C, T> basic_string<C, T>::substr(size_type pos,
+    size_type len) const
+{
+    return basic_string<C, T>(*this, pos, len);
+}
+
+
+template <typename C, typename T>
+basic_string<C, T>::operator bool() const
+{
+    return !empty();
+}
+
+
+template <typename C, typename T>
+basic_string<C, T>::operator std::string() const
+{
+    return std::string(data_, length);
 }
 
 // TYPES

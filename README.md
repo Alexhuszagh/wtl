@@ -12,4 +12,4 @@ The C++ Standard Template Library forms the basis of modern C++ design, however,
 
 ## License
 
-Public Domain, see [license](LICENSE.md).
+BSD-like or MIT, see [license](LICENSE.md).
