@@ -232,13 +232,9 @@ public:
     basic_string<Char, Traits> & operator=(const Char *str);
 
     // ITERATORS
-    iterator begin();
     const_iterator begin() const;
-    iterator end();
     const_iterator end() const;
-    reverse_iterator rbegin();
     const_reverse_iterator rbegin() const;
-    reverse_iterator rend();
     const_reverse_iterator rend() const;
     const_iterator cbegin() const;
     const_iterator cend() const;
@@ -262,7 +258,11 @@ public:
 
     // MODIFIERS
     basic_string<Char, Traits> & assign(const basic_string<Char, Traits> &str);
+    basic_string<Char, Traits> & assign(const std::basic_string<Char, Traits> &str);
     basic_string<Char, Traits> & assign(const basic_string<Char, Traits> &str,
+        size_type subpos,
+        size_type sublen);
+    basic_string<Char, Traits> & assign(const std::basic_string<Char, Traits> &str,
         size_type subpos,
         size_type sublen);
     basic_string<Char, Traits> & assign(const Char *s);
@@ -853,26 +853,10 @@ basic_string<C, T> & basic_string<C, T>::operator=(const C *str)
 
 
 template <typename C, typename T>
-auto basic_string<C, T>::begin()
-    -> iterator
-{
-    return data_;
-}
-
-
-template <typename C, typename T>
 auto basic_string<C, T>::begin() const
     -> const_iterator
 {
     return data_;
-}
-
-
-template <typename C, typename T>
-auto basic_string<C, T>::end()
-    -> iterator
-{
-    return data_ + length_;
 }
 
 
@@ -885,26 +869,10 @@ auto basic_string<C, T>::end() const
 
 
 template <typename C, typename T>
-auto basic_string<C, T>::rbegin()
-    -> reverse_iterator
-{
-    return reverse_iterator(begin());
-}
-
-
-template <typename C, typename T>
 auto basic_string<C, T>::rbegin() const
     -> const_reverse_iterator
 {
-    return const_reverse_iterator(begin());
-}
-
-
-template <typename C, typename T>
-auto basic_string<C, T>::rend()
-    -> reverse_iterator
-{
-    return reverse_iterator(end());
+    return const_reverse_iterator(end());
 }
 
 
@@ -912,7 +880,7 @@ template <typename C, typename T>
 auto basic_string<C, T>::rend() const
     -> const_reverse_iterator
 {
-    return const_reverse_iterator(end());
+    return const_reverse_iterator(begin());
 }
 
 
@@ -974,7 +942,7 @@ auto basic_string<C, T>::operator[](size_type pos)
     -> reference
 {
     assert(pos <= size() && "string index out of bounds");
-    return *(data_ + pos);
+    return *const_cast<char*>(data_ + pos);
 }
 
 
@@ -1008,7 +976,7 @@ auto basic_string<C, T>::front()
     -> reference
 {
     assert(!empty() && "string::front(): string is empty");
-    return *data_;
+    return *const_cast<char*>(data_);
 }
 
 
@@ -1026,7 +994,7 @@ auto basic_string<C, T>::back()
     -> reference
 {
     assert(!empty() && "string::back(): string is empty");
-    return *(data_ + length_ - 1);
+    return *const_cast<char*>(data_ + length_ - 1);
 }
 
 
@@ -1049,6 +1017,13 @@ basic_string<C, T> & basic_string<C, T>::assign(const basic_string<C, T> &str)
 
 
 template <typename C, typename T>
+basic_string<C, T> & basic_string<C, T>::assign(const std::basic_string<C, T> &str)
+{
+    return assign(basic_string<C, T>(str));
+}
+
+
+template <typename C, typename T>
 basic_string<C, T> & basic_string<C, T>::assign(const basic_string<C, T> &str,
     size_type subpos,
     size_type sublen)
@@ -1060,11 +1035,21 @@ basic_string<C, T> & basic_string<C, T>::assign(const basic_string<C, T> &str,
     return assign(str.data() + subpos, std::min(sublen, size - subpos));
 }
 
+
+template <typename C, typename T>
+basic_string<C, T> & basic_string<C, T>::assign(const std::basic_string<C, T> &str,
+    size_type subpos,
+    size_type sublen)
+{
+    return assign(basic_string<C, T>(str), subpos, sublen);
+}
+
+
 template <typename C, typename T>
 basic_string<C, T> & basic_string<C, T>::assign(const C *s)
 {
     data_ = s;
-    length_ = traits_type::length(s);
+    length_ = s ? traits_type::length(s) : 0;
     return *this;
 }
 
@@ -1541,7 +1526,7 @@ basic_string<C, T>::operator bool() const
 template <typename C, typename T>
 basic_string<C, T>::operator std::string() const
 {
-    return std::string(data_, length);
+    return std::string(data_, length_);
 }
 
 // TYPES
