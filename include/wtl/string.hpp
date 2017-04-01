@@ -62,12 +62,15 @@ public:
     // MEMBER FUNCTIONS
     // ----------------
     basic_string() = default;
-    basic_string(const basic_string<Char, Traits>&) = default;
-    basic_string<Char, Traits> & operator=(const basic_string<Char, Traits>&) = default;
-    basic_string(basic_string<Char, Traits>&&) = default;
-    basic_string<Char, Traits> & operator=(basic_string<Char, Traits>&&) = default;
+    basic_string(const basic_string<Char, Traits> &str);
+    basic_string<Char, Traits> & operator=(const basic_string<Char, Traits> &str);
+    basic_string(basic_string<Char, Traits> &&str);
+    basic_string<Char, Traits> & operator=(basic_string<Char, Traits> &&str);
 
-    basic_string(const std::basic_string<Char, Traits> &string);
+    basic_string(const std::basic_string<Char, Traits> &str);
+    basic_string(const Char *str);
+    basic_string(const Char *str,
+        size_t n);
 
     // ITERATORS
     iterator begin();
@@ -86,6 +89,7 @@ public:
     // CAPACITY
     size_t size() const;
     size_t length() const;
+    bool empty() const noexcept;
 
     // ELEMENT ACCESS
     reference operator[](size_type pos);
@@ -99,22 +103,13 @@ public:
 
     // MODIFIERS
     basic_string<Char, Traits> & assign(const basic_string<Char, Traits> &str);
-//basic_string& assign (const basic_string& str, size_type subpos, size_type sublen);
-//c-string (3)
-//basic_string& assign (const charT* s);
-//buffer (4)
-//basic_string& assign (const charT* s, size_type n);
-//fill (5)
-//basic_string& assign (size_type n, charT c);
-//range (6)
-//template <class InputIterator>
-//   basic_string& assign (InputIterator first, InputIterator last);
-//initializer list(7)
-//basic_string& assign (initializer_list<charT> il);
-//move (8)
-//basic_string& assign (basic_string&& str) noexcept;
+    basic_string<Char, Traits> & assign(const basic_string<Char, Traits> &str,
+        size_type subpos,
+        size_type sublen);
+    basic_string<Char, Traits> & assign(const Char *s);
+    basic_string<Char, Traits> & assign(const Char *s,
+        size_type n);
 
-//    using Base::assign;
 //    using Base::insert;
 //    using Base::erase;
 //    using Base::replace;
@@ -141,10 +136,62 @@ public:
 // --------------
 
 template <typename C, typename T>
-basic_string<C, T>::basic_string(const std::basic_string<Char, Traits> &string):
-    data_(string.data()),
-    length_(string.length())
+basic_string<C, T>::basic_string(const basic_string<C, T> &str):
+    data_(str.data()),
+    length_(str.length())
 {}
+
+
+template <typename C, typename T>
+basic_string<C, T> & basic_string<C, T>::operator=(const basic_string<C, T> &str)
+{
+    data_ = str.data_;
+    length_ = str.length_;
+    return *this;
+}
+
+
+template <typename C, typename T>
+basic_string<C, T>::basic_string(basic_string<C, T> &&str):
+    data_(str.data_),
+    length_(str.length_)
+{
+    std::swap(data_, str.data_);
+    std::swap(length_, str.length_);
+}
+
+
+template <typename C, typename T>
+basic_string<C, T> & basic_string<C, T>::operator=(basic_string<C, T> &&str)
+{
+    std::swap(data_, str.data_);
+    std::swap(length_, str.length_);
+    return *this;
+}
+
+
+template <typename C, typename T>
+basic_string<C, T>::basic_string(const std::basic_string<C, T> &str):
+    data_(str.data()),
+    length_(str.length())
+{}
+
+
+template <typename C, typename T>
+basic_string<C, T>::basic_string(const C *str)
+{
+    data_ = str;
+    length_ = traits_type::length(str);
+}
+
+
+template <typename C, typename T>
+basic_string<C, T>::basic_string(const C *str,
+    size_t n)
+{
+    data_ = str;
+    length_ = n;
+}
 
 
 template <typename C, typename T>
@@ -258,6 +305,13 @@ size_t basic_string<C, T>::length() const
 
 
 template <typename C, typename T>
+bool basic_string<C, T>::empty() const noexcept
+{
+    return length_ == 0;
+}
+
+
+template <typename C, typename T>
 auto basic_string<C, T>::operator[](size_type pos)
     -> reference
 {
@@ -330,11 +384,41 @@ auto basic_string<C, T>::back() const
 template <typename C, typename T>
 basic_string<C, T> & basic_string<C, T>::assign(const basic_string<C, T> &str)
 {
-    data_ = str.data_;
-    length_ = str.length_;
+    data_ = str.data();
+    length_ = str.length();
     return *this;
 }
 
+
+template <typename C, typename T>
+basic_string<C, T> & basic_string<C, T>::assign(const basic_string<C, T> &str,
+    size_type subpos,
+    size_type sublen)
+{
+    size_type size = str.size();
+    if (subpos > size) {
+        throw std::out_of_range("basic_string::assign().");
+    }
+    return assign(str.data() + subpos, std::min(sublen, size - subpos));
+}
+
+template <typename C, typename T>
+basic_string<C, T> & basic_string<C, T>::assign(const C *s)
+{
+    data_ = s;
+    length_ = traits_type::length(s);
+    return *this;
+}
+
+
+template <typename C, typename T>
+basic_string<C, T> & basic_string<C, T>::assign(const C *s,
+    size_type n)
+{
+    data_ = s;
+    length_ = n;
+    return *this;
+}
 
 // TYPES
 // -----
