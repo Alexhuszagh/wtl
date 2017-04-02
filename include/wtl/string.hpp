@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <cstring>
+#include <algorithm>
 #include <string>
 
 
@@ -385,13 +385,16 @@ namespace detail
 // ------
 
 
-const char * find(const char *first,
+template <typename Char>
+const Char * find(const Char *first,
     size_t length,
-    const char *substr,
+    const Char *substr,
     const size_t sublen) noexcept
 {
+    auto *substr_first = substr;
+    auto *substr_last = substr_first + sublen;
     for (; length >= sublen; --length, ++first) {
-        if (!strncmp(first, substr, sublen)) {
+        if (std::equal(substr_first, substr_last, first)) {
             return first;
         }
     }
@@ -399,13 +402,18 @@ const char * find(const char *first,
 }
 
 
-const char * find_of(const char *first,
+template <typename Char>
+const Char * find_of(const Char *first,
     size_t length,
-    const char *substr,
+    const Char *substr,
     const size_t sublen) noexcept
 {
+    auto *substr_first = substr;
+    auto *substr_last = substr_first + sublen;
     for (; length; --length, ++first) {
-        if (memchr(substr, *first, sublen)) {
+        if (std::any_of(substr_first, substr_last, [first](Char c) {
+            return *first == c;
+        })) {
             return first;
         }
     }
@@ -413,13 +421,18 @@ const char * find_of(const char *first,
 }
 
 
-const char * find_not_of(const char *first,
+template <typename Char>
+const Char * find_not_of(const Char *first,
     size_t length,
-    const char *substr,
+    const Char *substr,
     const size_t sublen)
 {
+    auto *substr_first = substr;
+    auto *substr_last = substr_first + sublen;
     for (; length; --length, ++first) {
-        if (!memchr(substr, *first, sublen)) {
+        if (std::none_of(substr_first, substr_last, [first](Char c) {
+            return *first == c;
+        })) {
             return first;
         }
     }
@@ -427,14 +440,17 @@ const char * find_not_of(const char *first,
 }
 
 
-const char * rfind(const char *last,
+template <typename Char>
+const Char * rfind(const Char *last,
     size_t length,
-    const char *substr,
+    const Char *substr,
     const size_t sublen)
 {
+    auto *substr_first = substr;
+    auto *substr_last = substr_first + sublen;
     last -= sublen;
     for (; length >= sublen; --length) {
-        if (!strncmp(--last, substr, sublen)) {
+        if (std::equal(substr_first, substr_last, --last)) {
             return last;
         }
     }
@@ -443,13 +459,19 @@ const char * rfind(const char *last,
 }
 
 
-const char * rfind_of(const char *last,
+template <typename Char>
+const Char * rfind_of(const Char *last,
     size_t length,
-    const char *substr,
+    const Char *substr,
     const size_t sublen)
 {
+    auto *substr_first = substr;
+    auto *substr_last = substr_first + sublen;
     for (; length; --length) {
-        if (memchr(substr, *--last, sublen)) {
+        --last;
+        if (std::any_of(substr_first, substr_last, [last](Char c) {
+            return *last == c;
+        })) {
             return last;
         }
     }
@@ -457,19 +479,24 @@ const char * rfind_of(const char *last,
 }
 
 
-const char * rfind_not_of(const char *last,
+template <typename Char>
+const Char * rfind_not_of(const Char *last,
     size_t length,
-    const char *substr,
+    const Char *substr,
     const size_t sublen)
 {
+    auto *substr_first = substr;
+    auto *substr_last = substr_first + sublen;
     for (; length; --length) {
-        if (!memchr(substr, *--last, sublen)) {
+        --last;
+        if (std::none_of(substr_first, substr_last, [last](Char c) {
+            return *last == c;
+        })) {
             return last;
         }
     }
     return nullptr;
 }
-
 
 }   /* detail */
 
