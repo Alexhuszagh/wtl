@@ -168,26 +168,6 @@ protected:
     template <typename C, typename T>
     friend bool operator>=(const basic_string<C, T> &left,
         const C *right);
-//
-//    // GETLINE
-//    template <typename C, typename T, typename A>
-//    friend std::basic_istream<C, T> & getline(std::basic_istream<C, T> &stream,
-//        basic_string<C, T, A> &str,
-//        C delim);
-//
-//    template <typename C, typename T, typename A>
-//    friend std::basic_istream<C, T> & getline(std::basic_istream<C, T> &&stream,
-//        basic_string<C, T, A> &str,
-//        C delim);
-//
-//    template <typename C, typename T, typename A>
-//    friend std::basic_istream<C, T> & getline(std::basic_istream<C, T> &stream,
-//        basic_string<C, T, A> &str);
-//
-//    template <typename C, typename T, typename A>
-//    friend std::basic_istream<C, T> & getline(std::basic_istream<C, T> &&stream,
-//        basic_string<C, T, A> &str);
-    // TODO: need non-member functions...
 
 public:
     // MEMBER TYPES
@@ -365,16 +345,30 @@ public:
     // COMPARE
     int compare(const basic_string<Char, Traits> &str) const noexcept;
     int compare(const std::basic_string<Char, Traits> &str) const noexcept;
-
-// TODO: need to implement...
-//int compare (size_type pos, size_type len, const basic_string<Char, Traits> &str) const;
-//int compare (size_type pos, size_type len, const std::basic_string<Char, Traits> &str) const;
-//int compare (size_type pos, size_type len, const basic_string<Char, Traits> &str, size_type subpos, size_type sublen) const;
-//int compare (size_type pos, size_type len, const std::basic_string<Char, Traits> &str, size_type subpos, size_type sublen) const;
-
-//    int compare(const Char *s) const;
-//    int compare(size_type pos, size_type len, const Char *s) const;
-//    int compare(size_type pos, size_type len, const Char* s, size_type n) const;
+    int compare(size_t pos,
+        size_type len,
+        const basic_string<Char, Traits> &str) const;
+    int compare(size_type pos,
+        size_type len,
+        const std::basic_string<Char, Traits> &str) const;
+    int compare(size_type pos,
+        size_type len,
+        const basic_string<Char, Traits> &str,
+        size_type subpos,
+        size_type sublen) const;
+    int compare(size_type pos,
+        size_type len,
+        const std::basic_string<Char, Traits> &str,
+        size_type subpos,
+        size_type sublen) const;
+    int compare(const Char *s) const;
+    int compare(size_type pos,
+        size_type len,
+        const Char *s) const;
+    int compare(size_type pos,
+        size_type len,
+        const Char *s,
+        size_type n) const;
 
     basic_string<Char, Traits> substr(size_type pos = 0,
         size_type len = npos) const;
@@ -481,8 +475,10 @@ const char * rfind_not_of(const char *last,
 
 
 // IMPLEMENTATION
-// --------------'
+// --------------
 
+template <typename C, typename T>
+const size_t basic_string<C, T>::npos;
 
 template <typename C, typename T>
 void swap(basic_string<C, T> &left,
@@ -1505,6 +1501,72 @@ template <typename C, typename T>
 int basic_string<C, T>::compare(const std::basic_string<C, T> &str) const noexcept
 {
     return compare(basic_string<C, T>(str));
+}
+
+
+template <typename C, typename T>
+int basic_string<C, T>::compare(size_type pos,
+    size_type len,
+    const basic_string<C, T> &str) const
+{
+    return basic_string<C, T>(*this, pos, len).compare(str);
+}
+
+
+template <typename C, typename T>
+int basic_string<C, T>::compare(size_type pos,
+    size_type len,
+    const std::basic_string<C, T> &str) const
+{
+    return basic_string<C, T>(*this, pos, len).compare(str);
+}
+
+
+template <typename C, typename T>
+int basic_string<C, T>::compare(size_type pos,
+    size_type len,
+    const basic_string<C, T> &str,
+    size_type subpos,
+    size_type sublen) const
+{
+    return basic_string<C, T>(*this, pos, len).compare(basic_string<C, T>(str, subpos, sublen));
+}
+
+
+template <typename C, typename T>
+int basic_string<C, T>::compare(size_type pos,
+    size_type len,
+    const std::basic_string<C, T> &str,
+    size_type subpos,
+    size_type sublen) const
+{
+    return basic_string<C, T>(*this, pos, len).compare(basic_string<C, T>(str, subpos, sublen));
+}
+
+
+template <typename C, typename T>
+int basic_string<C, T>::compare(const C *s) const
+{
+    return compare(basic_string<C, T>(s));
+}
+
+
+template <typename C, typename T>
+int basic_string<C, T>::compare(size_type pos,
+    size_type len,
+    const C *s) const
+{
+    return basic_string<C, T>(*this, pos, len).compare(s);
+}
+
+
+template <typename C, typename T>
+int basic_string<C, T>::compare(size_type pos,
+    size_type len,
+    const C *s,
+    size_type n) const
+{
+    return basic_string<C, T>(*this, pos, len).compare(s, n);
 }
 
 
