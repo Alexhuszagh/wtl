@@ -22,7 +22,7 @@ namespace wtl
  *
  *  \warning The lifetime of the source data must outlive the wrapper.
  *  The wrapper has **no** ownership, and is merely an STL-like wrapper
- *  for performacne reasons.
+ *  for performance reasons.
  */
 template <
     typename Char,
@@ -261,8 +261,8 @@ public:
     basic_string<Char, Traits> operator-(const size_t shift);
 
     // STRING OPERATIONS
-    const Char* c_str() const noexcept;
-    const Char* data() const noexcept;
+    const_pointer c_str() const noexcept;
+    const_pointer data() const noexcept;
 
     // FIND
     size_t find(const basic_string<Char, Traits> &str,
@@ -519,8 +519,7 @@ template <typename C, typename T>
 std::basic_istream<C, T> & operator>>(std::basic_istream<C, T> &stream,
     basic_string<C, T> &str)
 {
-    // TODO: maybe have to const_cast?
-    return stream.read(str.data_, str.length_);
+    return stream.read(const_cast<char*>(str.data_), str.length_);
 }
 
 
@@ -791,9 +790,7 @@ basic_string<C, T> & basic_string<C, T>::operator=(const basic_string<C, T> &str
 
 
 template <typename C, typename T>
-basic_string<C, T>::basic_string(basic_string<C, T> &&str):
-    data_(str.data_),
-    length_(str.length_)
+basic_string<C, T>::basic_string(basic_string<C, T> &&str)
 {
     swap(str);
 }
@@ -1182,14 +1179,16 @@ basic_string<C, T> basic_string<C, T>::operator-(const size_t shift)
 
 
 template <typename C, typename T>
-const C* basic_string<C, T>::c_str() const noexcept
+auto basic_string<C, T>::c_str() const noexcept
+    -> const_pointer
 {
     return data_;
 }
 
 
 template <typename C, typename T>
-const C* basic_string<C, T>::data() const noexcept
+auto basic_string<C, T>::data() const noexcept
+    -> const_pointer
 {
     return data_;
 }

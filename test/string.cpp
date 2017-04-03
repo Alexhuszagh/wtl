@@ -1,10 +1,5 @@
-/*
- *  :author: The Regents of the University of California.
- *  :license: Public Domain
- *
- *  This file has been placed in the public domain.
- *  There are no restrictions on its use.
- */
+//  :copyright: (c) 2017 Alex Huszagh.
+//  :license: BSD-like or MIT, see LICENSE.md for more details.
 
 #include <gtest/gtest.h>
 #include <wtl/string.hpp>
