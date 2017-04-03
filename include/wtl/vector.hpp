@@ -376,7 +376,7 @@ vector<T> & vector<T>::operator=(const std::vector<T> &vector)
 
 
 template <typename T>
-vector<T>::vector(const T *first,
+vector<T>::vector(const T *t,
         size_type n):
     data_(t),
     size_(n)
