@@ -42,24 +42,72 @@ protected:
         const vector<U> &right) noexcept;
 
     template <typename U>
+    friend bool operator==(const std::vector<U> &left,
+        const vector<U> &right) noexcept;
+
+    template <typename U>
+    friend bool operator==(const vector<U> &left,
+        const std::vector<U> &right) noexcept;
+
+    template <typename U>
     friend bool operator!=(const vector<U> &left,
         const vector<U> &right) noexcept;
+
+    template <typename U>
+    friend bool operator!=(const std::vector<U> &left,
+        const vector<U> &right) noexcept;
+
+    template <typename U>
+    friend bool operator!=(const vector<U> &left,
+        const std::vector<U> &right) noexcept;
 
     template <typename U>
     friend bool operator<(const vector<U> &left,
         const vector<U> &right) noexcept;
 
     template <typename U>
+    friend bool operator<(const std::vector<U> &left,
+        const vector<U> &right) noexcept;
+
+    template <typename U>
+    friend bool operator<(const vector<U> &left,
+        const std::vector<U> &right) noexcept;
+
+    template <typename U>
     friend bool operator<=(const vector<U> &left,
         const vector<U> &right) noexcept;
+
+    template <typename U>
+    friend bool operator<=(const std::vector<U> &left,
+        const vector<U> &right) noexcept;
+
+    template <typename U>
+    friend bool operator<=(const vector<U> &left,
+        const std::vector<U> &right) noexcept;
 
     template <typename U>
     friend bool operator>(const vector<U> &left,
         const vector<U> &right) noexcept;
 
     template <typename U>
+    friend bool operator>(const std::vector<U> &left,
+        const vector<U> &right) noexcept;
+
+    template <typename U>
+    friend bool operator>(const vector<U> &left,
+        const std::vector<U> &right) noexcept;
+
+    template <typename U>
     friend bool operator>=(const vector<U> &left,
         const vector<U> &right) noexcept;
+
+    template <typename U>
+    friend bool operator>=(const std::vector<U> &left,
+        const vector<U> &right) noexcept;
+
+    template <typename U>
+    friend bool operator>=(const vector<U> &left,
+        const std::vector<U> &right) noexcept;
 
 public:
     // MEMBER TYPES
@@ -86,8 +134,10 @@ public:
 
     vector(const std::vector<T> &vector);
     vector<T> & operator=(const std::vector<T> &vector);
-    vector(const T* t,
+    vector(const T *t,
         size_type n);
+    vector(const T *first,
+        const T *last);
 
     // ITERATORS
     const_iterator begin() const;
@@ -144,10 +194,42 @@ bool operator==(const vector<T> &left,
 
 
 template <typename T>
+bool operator==(const std::vector<T> &left,
+    const vector<T> &right) noexcept
+{
+    return vector<T>(left) == right;
+}
+
+
+template <typename T>
+bool operator==(const vector<T> &left,
+    const std::vector<T> &right) noexcept
+{
+    return left == vector<T>(right);
+}
+
+
+template <typename T>
 bool operator!=(const vector<T> &left,
     const vector<T> &right) noexcept
 {
     return !(left == right);
+}
+
+
+template <typename T>
+bool operator!=(const std::vector<T> &left,
+    const vector<T> &right) noexcept
+{
+    return vector<T>(left) != right;
+}
+
+
+template <typename T>
+bool operator!=(const vector<T> &left,
+    const std::vector<T> &right) noexcept
+{
+    return left != vector<T>(right);
 }
 
 
@@ -160,10 +242,42 @@ bool operator<(const vector<T> &left,
 
 
 template <typename T>
+bool operator<(const std::vector<T> &left,
+    const vector<T> &right) noexcept
+{
+    return vector<T>(left) < right;
+}
+
+
+template <typename T>
+bool operator<(const vector<T> &left,
+    const std::vector<T> &right) noexcept
+{
+    return left < vector<T>(right);
+}
+
+
+template <typename T>
 bool operator<=(const vector<T> &left,
     const vector<T> &right) noexcept
 {
     return !(right < left);
+}
+
+
+template <typename T>
+bool operator<=(const std::vector<T> &left,
+    const vector<T> &right) noexcept
+{
+    return vector<T>(left) <= right;
+}
+
+
+template <typename T>
+bool operator<=(const vector<T> &left,
+    const std::vector<T> &right) noexcept
+{
+    return left <= vector<T>(right);
 }
 
 
@@ -176,10 +290,42 @@ bool operator>(const vector<T> &left,
 
 
 template <typename T>
+bool operator>(const std::vector<T> &left,
+    const vector<T> &right) noexcept
+{
+    return vector<T>(left) > right;
+}
+
+
+template <typename T>
+bool operator>(const vector<T> &left,
+    const std::vector<T> &right) noexcept
+{
+    return left > vector<T>(right);
+}
+
+
+template <typename T>
 bool operator>=(const vector<T> &left,
     const vector<T> &right) noexcept
 {
     return !(left < right);
+}
+
+
+template <typename T>
+bool operator>=(const std::vector<T> &left,
+    const vector<T> &right) noexcept
+{
+    return vector<T>(left) >= right;
+}
+
+
+template <typename T>
+bool operator>=(const vector<T> &left,
+    const std::vector<T> &right) noexcept
+{
+    return left >= vector<T>(right);
 }
 
 
@@ -230,10 +376,18 @@ vector<T> & vector<T>::operator=(const std::vector<T> &vector)
 
 
 template <typename T>
-vector<T>::vector(const T* t,
+vector<T>::vector(const T *first,
         size_type n):
     data_(t),
     size_(n)
+{}
+
+
+template <typename T>
+vector<T>::vector(const T *first,
+        const T *last):
+    data_(first),
+    size_(last - first)
 {}
 
 
