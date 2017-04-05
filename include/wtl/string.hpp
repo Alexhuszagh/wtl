@@ -820,7 +820,7 @@ basic_string<C, T>::basic_string(const basic_string<C, T> &str,
     if (pos > size_) {
         throw std::out_of_range("basic_string::basic_string().");
     }
-    data_ = str + pos;
+    data_ = str.data() + pos;
     length_ = std::min(len, size_ - pos);
 }
 
@@ -834,7 +834,7 @@ basic_string<C, T>::basic_string(const std::basic_string<C, T> &str,
     if (pos > size_) {
         throw std::out_of_range("basic_string::basic_string().");
     }
-    data_ = str + pos;
+    data_ = str.data() + pos;
     length_ = std::min(len, size_ - pos);
 }
 
