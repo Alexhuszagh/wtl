@@ -843,7 +843,7 @@ template <typename C, typename T>
 basic_string<C, T>::basic_string(const C *str)
 {
     data_ = str;
-    length_ = traits_type::length(str);
+    length_ = str ? traits_type::length(str) : 0;
 }
 
 
